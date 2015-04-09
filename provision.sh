@@ -58,6 +58,7 @@ cp /vagrant/files/etc/supervisor/conf.d/supervisord.conf /etc/supervisor/conf.d/
 
 # Install
 apt-get -y install nginx
+service nginx stop
 
 # Config files
 cp /vagrant/files/etc/nginx/nginx.conf /etc/nginx/nginx.conf
@@ -201,3 +202,5 @@ cp /vagrant/files/opt/grafana/config.js /opt/grafana/config.js
 # All done
 #
 # ------------------------------------------------------------------------
+
+service supervisor restart
