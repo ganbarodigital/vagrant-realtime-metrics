@@ -202,3 +202,5 @@ cp /vagrant/files/opt/grafana/config.js /opt/grafana/config.js
 # All done
 #
 # ------------------------------------------------------------------------
+
+service supervisor restart
