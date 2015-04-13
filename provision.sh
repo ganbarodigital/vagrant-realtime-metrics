@@ -28,6 +28,15 @@ nodejs_version="0.12.0"
 
 # ========================================================================
 #
+# Script setup
+#
+# ------------------------------------------------------------------------
+
+basedir=$(dirname $0)
+basedir=$(cd $basedir && pwd)
+
+# ========================================================================
+#
 # Image setup
 #
 # ------------------------------------------------------------------------
@@ -48,7 +57,7 @@ mkdir ~/src
 # ------------------------------------------------------------------------
 
 apt-get -y install supervisor
-cp /vagrant/files/etc/supervisor/conf.d/supervisord.conf /etc/supervisor/conf.d/supervisord.conf
+cp $basedir/files/etc/supervisor/conf.d/supervisord.conf /etc/supervisor/conf.d/supervisord.conf
 
 # ========================================================================
 #
@@ -61,10 +70,10 @@ apt-get -y install nginx
 service nginx stop
 
 # Config files
-cp /vagrant/files/etc/nginx/nginx.conf /etc/nginx/nginx.conf
+cp $basedir/files/etc/nginx/nginx.conf /etc/nginx/nginx.conf
 
 # Startup scripts
-cp /vagrant/files/etc/supervisor/conf.d/nginx.conf /etc/supervisor/conf.d/nginx.conf
+cp $basedir/files/etc/supervisor/conf.d/nginx.conf /etc/supervisor/conf.d/nginx.conf
 
 # ========================================================================
 #
@@ -97,10 +106,10 @@ cd ~/src \
     && cp -r * /opt/statsd
 
 # Install statsd config file
-cp /vagrant/files/opt/statsd/config.js /opt/statsd/config.js
+cp $basedir/files/opt/statsd/config.js /opt/statsd/config.js
 
 # Startup scripts
-cp /vagrant/files/etc/supervisor/conf.d/statsd.conf /etc/supervisor/conf.d/statsd.conf
+cp $basedir/files/etc/supervisor/conf.d/statsd.conf /etc/supervisor/conf.d/statsd.conf
 
 # ========================================================================
 #
@@ -140,9 +149,9 @@ cd ~/src \
 sed -e 's|var interval = 60;|var interval = 1;|g' -i /opt/graphite/webapp/content/js/*.js
 
 # Config files
-cp /vagrant/files/opt/graphite/conf/carbon.conf /opt/graphite/conf/carbon.conf
-cp /vagrant/files/opt/graphite/webapp/graphite/local_settings.py /opt/graphite/webapp/graphite/local_settings.py
-cp /vagrant/files/opt/graphite/conf/storage-schemas.conf /opt/graphite/conf/storage-schemas.conf
+cp $basedir/files/opt/graphite/conf/carbon.conf /opt/graphite/conf/carbon.conf
+cp $basedir/files/opt/graphite/webapp/graphite/local_settings.py /opt/graphite/webapp/graphite/local_settings.py
+cp $basedir/files/opt/graphite/conf/storage-schemas.conf /opt/graphite/conf/storage-schemas.conf
 mv /opt/graphite/conf/storage-aggregation.conf.example /opt/graphite/conf/storage-aggregation.conf
 
 # 2nd state of setup after installing config files
@@ -154,9 +163,9 @@ chmod 0664 /opt/graphite/storage/graphite.db
 cd /opt/graphite/webapp/graphite && python manage.py syncdb --noinput
 
 # Startup scripts
-cp /vagrant/files/etc/supervisor/conf.d/carbon-cache.conf /etc/supervisor/conf.d/carbon-cache.conf
-cp /vagrant/files/etc/supervisor/conf.d/graphite-webapp.conf /etc/supervisor/conf.d/graphite-webapp.conf
-cp /vagrant/files/etc/supervisor/conf.d/memcached.conf /etc/supervisor/conf.d/memcached.conf
+cp $basedir/files/etc/supervisor/conf.d/carbon-cache.conf /etc/supervisor/conf.d/carbon-cache.conf
+cp $basedir/files/etc/supervisor/conf.d/graphite-webapp.conf /etc/supervisor/conf.d/graphite-webapp.conf
+cp $basedir/files/etc/supervisor/conf.d/memcached.conf /etc/supervisor/conf.d/memcached.conf
 
 # ========================================================================
 #
@@ -174,11 +183,11 @@ cd ~/src \
     && wget https://download.elasticsearch.org/elasticsearch/elasticsearch/elasticsearch-${elasticsearch_version}.deb \
     && dpkg -i elasticsearch-${elasticsearch_version}.deb
 
-cp /vagrant/files/usr/local/bin/run_elasticsearch.sh /usr/local/bin/run_elasticsearch.sh
+cp $basedir/files/usr/local/bin/run_elasticsearch.sh /usr/local/bin/run_elasticsearch.sh
 chmod 755 /usr/local/bin/run_elasticsearch.sh
 
 # Startup files
-cp /vagrant/files/etc/supervisor/conf.d/elasticsearch.conf /etc/supervisor/conf.d/elasticsearch.conf
+cp $basedir/files/etc/supervisor/conf.d/elasticsearch.conf /etc/supervisor/conf.d/elasticsearch.conf
 
 # ========================================================================
 #
@@ -195,7 +204,7 @@ cd ~/src \
     && cp -r * /opt/grafana
 
 # Config files
-cp /vagrant/files/opt/grafana/config.js /opt/grafana/config.js
+cp $basedir/files/opt/grafana/config.js /opt/grafana/config.js
 
 # ========================================================================
 #
